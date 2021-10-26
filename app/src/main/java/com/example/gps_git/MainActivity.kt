@@ -12,8 +12,9 @@ import com.google.android.gms.location.*
 
 class MainActivity : AppCompatActivity() {
     private lateinit var fusedLocationClient: FusedLocationProviderClient
-    private lateinit var Button:Button
+
     private var locationManager : LocationManager? = null
+   private lateinit var cordButton:Button
     // in onCreate() initialize FusedLocationProviderClient
 
 
@@ -24,16 +25,16 @@ class MainActivity : AppCompatActivity() {
     private lateinit var locationCallback: LocationCallback
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
-        Button = findViewById(R.id.cordButton)
-
-
-        with(Button) {
+        setContentView(R.layout.activity_main)
+        init()
+    }
+    private fun init(){
+        cordButton = findViewById(R.id.crdbtn)
+        with(cordButton) {
             getLocationUpdates()
         }
-        setContentView(R.layout.activity_main)
-    }
 
+    }
     private fun getLocationUpdates() {
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
