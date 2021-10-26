@@ -7,7 +7,7 @@
     tools:context=".MainActivity">
 
     <Button
-        android:id="@+id/getCoordButton"
+        android:id="@+id/cordButton"
         android:layout_width="418dp"
         android:layout_height="56dp"
         android:layout_marginBottom="72dp"

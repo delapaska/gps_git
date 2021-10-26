@@ -1,22 +1,13 @@
 package com.example.gps_git
 
-import android.content.IntentSender
 import android.content.pm.PackageManager
-import android.location.Location
 import android.location.LocationManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
-import android.widget.TextView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
-import com.example.gps_git.databinding.ActivityMainBinding
-import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.android.gms.tasks.Task
-import org.w3c.dom.Text
-import java.util.jar.Manifest
 
 
 class MainActivity : AppCompatActivity() {
@@ -34,12 +25,13 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
-        Button = findViewById(R.id.getCoordButton)
+        Button = findViewById(R.id.cordButton)
 
-        setContentView(R.layout.activity_main)
+
         with(Button) {
             getLocationUpdates()
         }
+        setContentView(R.layout.activity_main)
     }
 
     private fun getLocationUpdates() {
