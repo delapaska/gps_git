@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity() {
     private fun init(){
         cordButton = findViewById(R.id.crdbtn)
         with(cordButton) {
-            getLocationUpdates()
+           setOnClickListener {   getLocationUpdates()}
         }
 
     }
