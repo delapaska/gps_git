@@ -7,24 +7,29 @@ import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Bundle
 import android.widget.Button
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import com.example.gps_git.database.MyDbManager
+import com.example.gps_git.databinding.ActivityMainBinding
 import com.google.android.gms.location.LocationAvailability
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationResult
+import kotlinx.android.synthetic.main.activity_coords_out.*
+import kotlinx.android.synthetic.main.activity_main.*
 
 
 class MainActivity : AppCompatActivity() {
-//    private lateinit var fusedLocationClient: FusedLocationProviderClient
-
+    private lateinit var binding: ActivityMainBinding
+    val myDbManager = MyDbManager(this)
+    private lateinit var crdbtn: Button
+    private lateinit var coordText: TextView
     private var locationManager: LocationManager? = null
-    private lateinit var cordButton: Button
-
-    // globally declare LocationCallback
     private var locationCallback: LocationCallback = object : LocationCallback() {
         override fun onLocationResult(p0: LocationResult) {
             println("new location received: $p0")
+
         }
 
         override fun onLocationAvailability(p0: LocationAvailability) {
@@ -33,23 +38,31 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        println("JOOOPA")
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        setupViews()
+        crdbtn = findViewById(R.id.receiveCoordButton)
+        binding = ActivityMainBinding.inflate(layoutInflater)
 
         locationManager = getSystemService(LOCATION_SERVICE) as LocationManager
+        setupViews()
+
+
     }
 
+
     private fun setupViews() {
-        cordButton = findViewById(R.id.crdbtn)
-        with(cordButton) {
-            setOnClickListener {
-                if (isLocationPermissionGranted()) {
-                    println("permissions granted")
-                    getLocationUpdates()
-                } else {
-                    println("permissions denied")
-                    requestLocationPermission()
+        with(binding) {
+            with(crdbtn) {
+                setOnClickListener {
+                    if (isLocationPermissionGranted()) {
+                        println("permissions granted")
+                        getLocationUpdates()
+
+                    } else {
+                        println("permissions denied")
+                        requestLocationPermission()
+                    }
                 }
             }
         }
@@ -91,21 +104,25 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun getLocationUpdates() {
-//        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
-//        LocationRequest().also { locationRequest = it }
-//        locationRequest.interval = 50000
-//        locationRequest.fastestInterval = 50000
-//        locationRequest.smallestDisplacement = 170f // 170 m = 0.1 mile
-//        locationRequest.priority =
-//            LocationRequest.PRIORITY_HIGH_ACCURACY //set according to your app function
-
         locationManager?.requestLocationUpdates(
             LocationManager.GPS_PROVIDER,
             1000L,
             0F,
             object : LocationListener {
                 override fun onLocationChanged(p0: Location) {
-                    println("new location received: $p0")
+                    coordTextView.text = ""
+                    myDbManager.openDB()
+                    myDbManager.insertTo_Db(
+                        titleView.text.toString(),
+                        coordTextView.text.toString()
+                    )
+                    val datalist = myDbManager.readDbData()
+                    for (p0 in datalist) {
+                        coordTextView.append(p0)
+                        coordTextView.append("\n")
+                    }
+
+
                 }
             }
         )
@@ -116,12 +133,9 @@ class MainActivity : AppCompatActivity() {
                 if (locationResult.locations.isNotEmpty()) {
                     val location =
                         locationResult.lastLocation
-                    Toast.makeText(applicationContext, location.toString(), Toast.LENGTH_SHORT)
 
 
                 }
-
-
             }
         }
     }
@@ -134,15 +148,6 @@ class MainActivity : AppCompatActivity() {
                 android.Manifest.permission.ACCESS_COARSE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
         ) {
-
-
-//            fusedLocationClient.requestLocationUpdates(
-//                locationRequest,
-//                locationCallback,
-//                null
-//
-//            )
-
             return
         }
 
@@ -151,7 +156,6 @@ class MainActivity : AppCompatActivity() {
     fun stopLocationUpdates() {
 //        fusedLocationClient.removeLocationUpdates(locationCallback)
     }
-
 
     override fun onPause() {
         super.onPause()
