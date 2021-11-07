@@ -16,7 +16,6 @@ import com.example.gps_git.databinding.ActivityMainBinding
 import com.google.android.gms.location.LocationAvailability
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationResult
-import kotlinx.android.synthetic.main.activity_coords_out.*
 import kotlinx.android.synthetic.main.activity_main.*
 
 
@@ -42,6 +41,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         crdbtn = findViewById(R.id.receiveCoordButton)
+        coordText = findViewById(R.id.coordTextView)
         binding = ActivityMainBinding.inflate(layoutInflater)
 
         locationManager = getSystemService(LOCATION_SERVICE) as LocationManager
@@ -110,16 +110,17 @@ class MainActivity : AppCompatActivity() {
             0F,
             object : LocationListener {
                 override fun onLocationChanged(p0: Location) {
+                    println("Your latitude is " + p0.latitude)
                     coordTextView.text = ""
                     myDbManager.openDB()
                     myDbManager.insertTo_Db(
-                        titleView.text.toString(),
-                        coordTextView.text.toString()
+                        coordText.text.toString(),
+                        coordText.text.toString()
                     )
                     val datalist = myDbManager.readDbData()
                     for (p0 in datalist) {
-                        coordTextView.append(p0)
-                        coordTextView.append("\n")
+                        coordText.append(p0)
+                        coordText.append("\n")
                     }
 
 
