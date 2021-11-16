@@ -5,6 +5,8 @@
       <map>
         <entry key="..\:/gps_git/app/src/main/res/layout/activity_coords_out.xml" value="0.23541666666666666" />
         <entry key="..\:/gps_git/app/src/main/res/layout/activity_main.xml" value="0.2957427536231884" />
+        <entry key="..\:/gps_git/app/src/main/res/layout/fragment_add.xml" value="0.2554347826086957" />
+        <entry key="..\:/gps_git/app/src/main/res/layout/fragment_list.xml" value="0.2554347826086957" />
       </map>
     </option>
   </component>
