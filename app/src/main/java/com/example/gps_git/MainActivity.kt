@@ -42,9 +42,9 @@ class MainActivity : AppCompatActivity() {
         crdbtn = findViewById(R.id.receiveCoordButton)
         coordText = findViewById(R.id.coordTextView)
         binding = ActivityMainBinding.inflate(layoutInflater)
-
-        locationManager = getSystemService(LOCATION_SERVICE) as LocationManager
         setupActionBarWithNavController(findNavController(R.id.myFragment))
+        locationManager = getSystemService(LOCATION_SERVICE) as LocationManager
+
         setupViews()
 
 

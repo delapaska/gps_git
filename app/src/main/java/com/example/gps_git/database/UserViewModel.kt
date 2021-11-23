@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 
 class UserViewModel(application: Application) : AndroidViewModel(application) {
-    private val readAllData: LiveData<List<user>>
+    private val readAllData: LiveData<List<User>>
     private val repository: UserRepository
 
     init {
@@ -16,7 +16,7 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
         readAllData = repository.readAllData
     }
 
-    fun addUser(user: user) {
+    fun addUser(user: User) {
         viewModelScope.launch {
             repository.addUser(user)
         }
