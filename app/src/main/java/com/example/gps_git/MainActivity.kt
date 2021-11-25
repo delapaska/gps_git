@@ -11,8 +11,6 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import androidx.navigation.findNavController
-import androidx.navigation.ui.setupActionBarWithNavController
 import com.example.gps_git.databinding.ActivityMainBinding
 import com.google.android.gms.location.LocationAvailability
 import com.google.android.gms.location.LocationCallback
@@ -39,13 +37,14 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        crdbtn = findViewById(R.id.receiveCoordButton)
-        coordText = findViewById(R.id.coordTextView)
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setupActionBarWithNavController(findNavController(R.id.myFragment))
-        locationManager = getSystemService(LOCATION_SERVICE) as LocationManager
 
+        crdbtn = findViewById(R.id.receiveCoordButton)
+        // coordText = findViewById(R.id.coordTextView)
+        locationManager = getSystemService(LOCATION_SERVICE) as LocationManager
+        binding = ActivityMainBinding.inflate(layoutInflater)
         setupViews()
+        //setupActionBarWithNavController(findNavController(R.id.coordFragment))
+//        NavigationUI.setupActionBarWithNavController(this, findNavController(R.id.coordFragment));
 
 
     }
@@ -53,6 +52,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupViews() {
         with(binding) {
+
             with(crdbtn) {
                 setOnClickListener {
                     if (isLocationPermissionGranted()) {
@@ -63,6 +63,8 @@ class MainActivity : AppCompatActivity() {
                         println("permissions denied")
                         requestLocationPermission()
                     }
+
+
                 }
             }
         }
